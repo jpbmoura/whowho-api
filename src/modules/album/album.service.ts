@@ -41,6 +41,45 @@ export class AlbumService {
     }
   }
 
+  async getRandomAlbum(): Promise<Album> {
+    try {
+      const allAlbunsIds = Array.from(
+        { length: 1001 },
+        (_, index) => index + 1,
+      );
+
+      const randomAlbum = getRandomItem(allAlbunsIds);
+
+      const findAlbumById =
+        await this.albumRepository.findAlbumById(randomAlbum);
+
+      if (!findAlbumById) {
+        throw new InternalServerErrorException(
+          'ALBUM_SERVICE_ERROR_1, Album not found',
+        );
+      }
+
+      const album = {
+        title: findAlbumById.title,
+        artist: findAlbumById.artist,
+        albumCover: findAlbumById.album_cover,
+        released: findAlbumById.released,
+        genre: findAlbumById.genre,
+        subgenre: findAlbumById.subgenre,
+        label: findAlbumById.label,
+        description: findAlbumById.description,
+        wikipediaUrl: findAlbumById.wikipedia_url,
+      };
+
+      return album;
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'ALBUM_SERVICE_ERROR_2',
+        error.message,
+      );
+    }
+  }
+
   async updateTodayAlbum(): Promise<void> {
     try {
       const allAlbunsIds = Array.from(

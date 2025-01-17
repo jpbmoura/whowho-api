@@ -5,10 +5,16 @@ import { AlbumService } from './album.service';
 export class AlbumController {
   constructor(private readonly albumService: AlbumService) {}
 
-  @Get('/todays-album')
+  @Get('/todays')
   @HttpCode(200)
   getTodayAlbum() {
     return this.albumService.getTodayAlbum();
+  }
+
+  @Get('/random')
+  @HttpCode(200)
+  getRandomAlbum() {
+    return this.albumService.getRandomAlbum();
   }
 
   @Put('/update-todays-album')
