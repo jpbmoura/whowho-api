@@ -6,7 +6,7 @@ export class AlbumRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async findLast() {
-    return this.prisma.albumSeenList.findFirst({
+    return this.prisma.albums_seen.findFirst({
       orderBy: {
         id: 'desc',
       },
@@ -14,7 +14,7 @@ export class AlbumRepository {
   }
 
   async findAlbumById(albumId: number) {
-    return this.prisma.albumList.findFirst({
+    return this.prisma.albums.findFirst({
       where: {
         id: albumId,
       },
@@ -22,7 +22,7 @@ export class AlbumRepository {
   }
 
   async insertNewAlbum(albumId: number) {
-    return this.prisma.albumSeenList.create({
+    return this.prisma.albums_seen.create({
       data: {
         albumlist_id: albumId,
       },
@@ -30,10 +30,10 @@ export class AlbumRepository {
   }
 
   async findAllSeenAlbums() {
-    return this.prisma.albumSeenList.findMany();
+    return this.prisma.albums_seen.findMany();
   }
 
   async clearSeenAlbums() {
-    return this.prisma.albumSeenList.deleteMany();
+    return this.prisma.albums_seen.deleteMany();
   }
 }
