@@ -21,6 +21,7 @@ export class AlbumService {
       }
 
       const album = {
+        id: findAlbumById.id,
         title: findAlbumById.title,
         artist: findAlbumById.artist,
         albumCover: findAlbumById.album_cover,
@@ -60,6 +61,7 @@ export class AlbumService {
       }
 
       const album = {
+        id: findAlbumById.id,
         title: findAlbumById.title,
         artist: findAlbumById.artist,
         albumCover: findAlbumById.album_cover,
@@ -111,6 +113,31 @@ export class AlbumService {
     } catch (error) {
       throw new InternalServerErrorException(
         'ALBUM_SERVICE_ERROR_4',
+        error.message,
+      );
+    }
+  }
+
+  async rateAlbum(body: { albumId: number; rating: number }) {
+    try {
+      const { albumId, rating } = body;
+
+      await this.albumRepository.insertRating(albumId, rating);
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'ALBUM_SERVICE_ERROR_5',
+        error.message,
+      );
+    }
+  }
+
+  async getRating(albumId: number) {
+    try {
+      const rating = await this.albumRepository.getRating(albumId);
+      return rating;
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'ALBUM_SERVICE_ERROR_6',
         error.message,
       );
     }

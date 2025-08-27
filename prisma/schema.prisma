@@ -32,4 +32,11 @@ model albums_seen {
   created_at    DateTime  @default(now())
 }
 
+model albums_rating {
+  id            Int       @id @default(autoincrement())
+  album_id      Int
+  rating        Int
+  created_at    DateTime  @default(now())
+}
+
 

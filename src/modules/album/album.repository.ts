@@ -36,4 +36,32 @@ export class AlbumRepository {
   async clearSeenAlbums() {
     return this.prisma.albums_seen.deleteMany();
   }
+
+  async insertRating(albumId: number, rating: number) {
+    return this.prisma.albums_rating.create({
+      data: {
+        album_id: albumId,
+        rating: rating,
+      },
+    });
+  }
+
+  async getRating(albumId: number) {
+    const result = await this.prisma.albums_rating.aggregate({
+      where: {
+        album_id: albumId,
+      },
+      _count: {
+        rating: true,
+      },
+      _avg: {
+        rating: true,
+      },
+    });
+
+    return {
+      totalRatings: result._count.rating,
+      averageRating: result._avg.rating,
+    };
+  }
 }
